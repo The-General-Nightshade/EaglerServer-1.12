@@ -1,0 +1,12 @@
+name: SummonPlayerNPC
+version: 1.0
+main: com.yourname.summonnpc.SummonNPCPlugin
+api-version: 1.12
+commands:
+  summonnpc:
+    description: Spawn an NPC copy of a player who has joined before
+    usage: /<command> <playerName>
+permissions:
+  summonnpc.use:
+    description: Allows usage of /summonnpc
+    default: op
