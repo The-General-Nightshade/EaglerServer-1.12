@@ -1,0 +1,57 @@
+# WindTurrets configuration
+fire_interval_ticks: 10   # scan interval upper bound; automatic mode may scan faster
+automatic_fire_interval_ticks: 2
+semi_automatic_fire_interval_ticks: 10
+single_fire_interval_ticks: 10
+default_fire_mode: semi-automatic
+magazine_size: 30
+ammo_regen_seconds: 10
+fire_cooldown_ticks: 20   # legacy fallback for semi_automatic_fire_interval_ticks
+ammo_notifications_enabled: true
+default_radius: 10        # detection radius
+max_targets_per_scan: 1
+default_target_priority: nearest # nearest, weakest, or random
+target_creative: false
+target_spectator: false
+target_invisible: false
+respect_worldguard: true
+markers:
+  enabled: true
+  interval_ticks: 40 # one marker particle every 2 seconds per turret
+limits:
+  per_player: 5       # 0 disables the limit
+  per_world: 50       # 0 disables the limit
+  placement_cooldown_seconds: 3 # 0 disables the cooldown
+aiming:
+  projectile_speed: 1.6
+  max_lead_seconds: 0.75
+  base_spread_degrees: 8.0
+  spread_reduction_degrees_per_level: 1.5
+  minimum_spread_degrees: 0.5
+upgrades:
+  enabled: true
+  max_level: 5
+  range:
+    material: IRON_INGOT
+    cost: 8
+    blocks_per_level: 2
+    maximum_radius: 128
+  magazine:
+    material: GOLD_INGOT
+    cost: 8
+    ammo_per_level: 10
+  fire_rate:
+    material: REDSTONE
+    cost: 8
+    ticks_reduction_per_level: 1
+    minimum_interval_ticks: 1
+  accuracy:
+    material: DIAMOND
+    cost: 12
+turrets: {}
+crafting:
+  result_material: QUARTZ_BLOCK
+  result_name: "&bWind Turret Core"
+  result_lore:
+    - "&7Right-click a Quartz Pillar on top of an up-facing Dispenser"
+    - "&8Activation consumes the core and removes both blocks."
