@@ -1,0 +1,7 @@
+range:
+  minimum: 2.0
+  maximum: 4.5
+charge:
+  minimum_speed: 4.6
+  knockback_speed: 5.1
+  timeout_ticks: 40

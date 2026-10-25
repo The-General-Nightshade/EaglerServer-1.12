@@ -1,57 +1,82 @@
-# WindTurrets configuration
-fire_interval_ticks: 10   # scan interval upper bound; automatic mode may scan faster
-automatic_fire_interval_ticks: 2
-semi_automatic_fire_interval_ticks: 10
-single_fire_interval_ticks: 10
-default_fire_mode: semi-automatic
-magazine_size: 30
-ammo_regen_seconds: 10
-fire_cooldown_ticks: 20   # legacy fallback for semi_automatic_fire_interval_ticks
-ammo_notifications_enabled: true
-default_radius: 10        # detection radius
-max_targets_per_scan: 1
-default_target_priority: nearest # nearest, weakest, or random
-target_creative: false
-target_spectator: false
-target_invisible: false
-respect_worldguard: true
-markers:
-  enabled: true
-  interval_ticks: 40 # one marker particle every 2 seconds per turret
-limits:
-  per_player: 5       # 0 disables the limit
-  per_world: 50       # 0 disables the limit
-  placement_cooldown_seconds: 3 # 0 disables the cooldown
-aiming:
-  projectile_speed: 1.6
-  max_lead_seconds: 0.75
-  base_spread_degrees: 8.0
-  spread_reduction_degrees_per_level: 1.5
-  minimum_spread_degrees: 0.5
-upgrades:
-  enabled: true
-  max_level: 5
-  range:
-    material: IRON_INGOT
-    cost: 8
-    blocks_per_level: 2
-    maximum_radius: 128
-  magazine:
-    material: GOLD_INGOT
-    cost: 8
-    ammo_per_level: 10
-  fire_rate:
-    material: REDSTONE
-    cost: 8
-    ticks_reduction_per_level: 1
-    minimum_interval_ticks: 1
-  accuracy:
-    material: DIAMOND
-    cost: 12
-turrets: {}
-crafting:
-  result_material: QUARTZ_BLOCK
-  result_name: "&bWind Turret Core"
-  result_lore:
-    - "&7Right-click a Quartz Pillar on top of an up-facing Dispenser"
-    - "&8Activation consumes the core and removes both blocks."
+# WindTurrets defaults; durations ending in ticks use 20 ticks per second.
+fire_interval_ticks: 10 # Maximum interval between turret scans; faster firing modes can scan more often.
+automatic_fire_interval_ticks: 2 # Minimum delay between shots in automatic turret mode.
+semi_automatic_fire_interval_ticks: 10 # Delay between shots in semi-automatic turret mode.
+single_fire_interval_ticks: 10 # Delay after a single-mode shot before another target can be acquired.
+default_fire_mode: semi-automatic # Mode assigned to newly activated turrets: automatic, semi-automatic, or single.
+magazine_size: 30 # Number of shots in each turret magazine; mech weapons do not use ammo.
+ammo_regen_seconds: 10 # Seconds after a turret magazine empties before it refills completely.
+fire_cooldown_ticks: 20 # Legacy fallback interval for semi_automatic_fire_interval_ticks.
+ammo_notifications_enabled: true # Notify turret owners when their turret empties and reloads.
+default_radius: 10 # Detection radius in blocks for newly activated turrets.
+max_targets_per_scan: 1 # Maximum number of targets one turret can fire at during a scan.
+default_target_priority: nearest # Target selection for new turrets: nearest, weakest, or random.
+target_creative: false # Allow turrets to target players in creative mode when true.
+target_spectator: false # Allow turrets to target players in spectator mode when true.
+target_invisible: false # Allow turrets to target invisible players when true.
+respect_worldguard: true # Respect WorldGuard PvP flags when WorldGuard is installed.
+markers: # Visual location markers for placed turrets.
+  enabled: true # Show occasional particles above each loaded turret.
+  interval_ticks: 40 # Ticks between marker particles per turret; 40 ticks is 2 seconds.
+limits: # Limits checked before a player activates a turret.
+  per_player: 5 # Maximum active turrets owned per player; 0 disables this limit.
+  per_world: 50 # Maximum active turrets per world; 0 disables this limit.
+  placement_cooldown_seconds: 3 # Minimum time between successful turret placements per player; 0 disables it.
+aiming: # Projectile behavior for turrets.
+  projectile_speed: 1.6 # Base snowball speed used by turret projectiles.
+  max_lead_seconds: 0.75 # Maximum target movement prediction time in seconds.
+  base_spread_degrees: 8.0 # Turret aim spread before accuracy upgrades.
+  spread_reduction_degrees_per_level: 1.5 # Spread removed by each accuracy upgrade level.
+  minimum_spread_degrees: 0.5 # Lowest spread permitted after accuracy upgrades.
+upgrades: # Shared turret upgrade settings and costs.
+  enabled: true # Allow players to purchase turret upgrades in the GUI.
+  max_level: 5 # Maximum level for each turret upgrade type.
+  range: # Turret detection-range upgrade.
+    material: IRON_INGOT # Item charged for each range upgrade.
+    cost: 8 # Base item cost; the cost scales with the next upgrade level.
+    blocks_per_level: 2 # Detection-radius increase per level.
+    maximum_radius: 128 # Highest detection radius allowed after upgrades.
+  magazine: # Turret magazine-capacity upgrade.
+    material: GOLD_INGOT # Item charged for each magazine upgrade.
+    cost: 8 # Base item cost; the cost scales with the next upgrade level.
+    ammo_per_level: 10 # Additional shots per magazine upgrade level.
+  fire_rate: # Turret firing-speed upgrade.
+    material: REDSTONE # Item charged for each firing-speed upgrade.
+    cost: 8 # Base item cost; the cost scales with the next upgrade level.
+    ticks_reduction_per_level: 1 # Ticks removed from the firing interval per level.
+    minimum_interval_ticks: 1 # Fastest firing interval allowed after upgrades.
+  accuracy: # Turret accuracy upgrade.
+    material: DIAMOND # Item charged for each accuracy upgrade.
+    cost: 12 # Base item cost; the cost scales with the next upgrade level.
+turrets: {} # Saved turret records are managed automatically; do not edit unless migrating data.
+crafting: # Wind Turret Core item identity and lore; the recipe is registered by the plugin.
+  result_material: QUARTZ_BLOCK # Base item used for the Wind Turret Core.
+  result_name: "&bWind Turret Core" # Display name used to identify the core.
+  result_lore: # Lore shown on generated turret cores.
+    - "&7Right-click a Quartz Pillar on top of an up-facing Dispenser" # Placement instructions.
+    - "&8Activation consumes the core and removes both blocks." # Explains what activation consumes.
+mechs: # Settings for the block-built, mountable mech system.
+  enabled: true # Allow players to deploy and operate mechs.
+  max_per_player: 1 # Maximum mechs per owner; 0 disables this limit.
+  input_hold_timeout_ticks: 5 # Stop continuous fire this many ticks after click events cease; 20 ticks is 1 second.
+  max_health: 120 # Starting durability for each newly deployed mech.
+  machine_gun: # Left/right arm machine-gun behavior; mech weapons do not consume ammo.
+    cooldown_ticks: 4 # Per-shot reload delay in ticks (0.2 seconds); sets the maximum firing rate.
+    speed: 2.4 # Machine-gun projectile speed.
+    damage: 2.0 # Direct hit damage to a player, before other server rules apply.
+  rocket: # Left/right arm rocket-launcher behavior; rockets do not break blocks.
+    cooldown_ticks: 30 # Per-shot reload delay in ticks (1.5 seconds).
+    speed: 1.6 # Rocket projectile speed.
+    radius: 3.0 # Player knockback/damage radius in blocks at impact.
+    damage: 6.0 # Damage to players inside the impact radius, before other server rules apply.
+  upgrades: # Mech durability and movement upgrades.
+    max_level: 5 # Maximum armor and engine upgrade levels.
+    armor: # Increases mech maximum durability.
+      base_cost: 2 # Diamond blocks charged per first level; cost scales with the next level.
+      health_per_level: 40 # Maximum and current durability added per armor level.
+    engine: # Increases the horse chassis movement speed.
+      base_cost: 3 # Iron blocks charged per first level; cost scales with the next level.
+      speed_per_level: 0.025 # Movement-speed attribute increase per engine level.
+  repair: # Mech repair action in the upgrade menu.
+    cost: 8 # Iron ingots charged per repair.
+    health: 40 # Durability restored per repair, up to maximum health.

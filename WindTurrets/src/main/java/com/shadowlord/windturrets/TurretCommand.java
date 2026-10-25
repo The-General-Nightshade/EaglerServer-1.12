@@ -27,6 +27,8 @@ public class TurretCommand implements CommandExecutor {
             sender.sendMessage(c("&6Turret commands:"));
             sender.sendMessage(c("&e/turret givecore &7- issue a core (admin only)"));
             sender.sendMessage(c("&e/turret gui &7- manage your turrets"));
+            sender.sendMessage(c("&e/turret admin gui &7- manage all turrets (admin only)"));
+            sender.sendMessage(c("&e/turret mech &7- mech controls and instructions"));
             sender.sendMessage(c("&e/turret reload &7- reload and validate configuration"));
             sender.sendMessage(c("&e/turret list &7- list your turrets"));
             sender.sendMessage(c("&e/turret remove <id> &7- remove your turret and reclaim its core"));
@@ -46,6 +48,23 @@ public class TurretCommand implements CommandExecutor {
                 return true;
             }
             plugin.getTurretGUI().openPlayerList((Player) sender, 0);
+            return true;
+        }
+
+        if (args[0].equalsIgnoreCase("admin")) {
+            if (!sender.hasPermission("windturrets.admin")) {
+                sender.sendMessage(c("&cNo permission."));
+                return true;
+            }
+            if (args.length == 2 && args[1].equalsIgnoreCase("gui")) {
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(c("&cOnly players can open the admin GUI."));
+                    return true;
+                }
+                plugin.getTurretGUI().openAdminList((Player) sender, 0);
+            } else {
+                sender.sendMessage(c("&eUsage: /turret admin gui"));
+            }
             return true;
         }
 
@@ -124,6 +143,15 @@ public class TurretCommand implements CommandExecutor {
         }
 
         String sub = args[0].toLowerCase(Locale.ROOT);
+
+        if (sub.equals("mech")) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(c("&cOnly players can use mech commands."));
+                return true;
+            }
+            plugin.getMechManager().handleCommand((Player) sender, args);
+            return true;
+        }
 
         if (sub.equals("givecore")) {
             if (!sender.hasPermission("windturrets.admin")) {

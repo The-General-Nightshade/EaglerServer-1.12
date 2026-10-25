@@ -19,6 +19,7 @@ public class WindTurrets extends JavaPlugin implements Listener {
     private TurretFireTask fireTask;
     private TurretGUI turretGUI;
     private ProtectionChecker protectionChecker;
+    private MechManager mechManager;
 
     @Override
     public void onEnable() {
@@ -32,10 +33,11 @@ public class WindTurrets extends JavaPlugin implements Listener {
         registerCoreRecipe();
 
         getCommand("turret").setExecutor(new TurretCommand(this));
-        getCommand("turrets").setExecutor(new TurretsCommand(this));
         getServer().getPluginManager().registerEvents(new TurretPlacementListener(this), this);
         protectionChecker = new ProtectionChecker(this);
         getServer().getPluginManager().registerEvents(this, this);
+        mechManager = new MechManager(this);
+        getServer().getPluginManager().registerEvents(mechManager, this);
         turretGUI = new TurretGUI(this);
         getServer().getPluginManager().registerEvents(turretGUI, this);
         Bukkit.getScheduler().runTaskTimer(this, () -> {
@@ -119,6 +121,24 @@ public class WindTurrets extends JavaPlugin implements Listener {
         validateBoolean("markers.enabled", true, warnings);
         validateBoolean("upgrades.enabled", true, warnings);
         validateInt("markers.interval_ticks", 40, 10, 1200, warnings);
+        validateBoolean("mechs.enabled", true, warnings);
+        validateInt("mechs.max_per_player", 1, 0, 100, warnings);
+        validateInt("mechs.input_hold_timeout_ticks", 5, 2, 20, warnings);
+        validateInt("mechs.machine_gun.cooldown_ticks", 4, 1, 1200, warnings);
+        validateInt("mechs.rocket.cooldown_ticks", 30, 1, 1200, warnings);
+        validateInt("mechs.upgrades.max_level", 5, 1, 100, warnings);
+        validateInt("mechs.upgrades.armor.base_cost", 2, 1, 1000, warnings);
+        validateInt("mechs.upgrades.engine.base_cost", 3, 1, 1000, warnings);
+        validateInt("mechs.repair.cost", 8, 1, 10000, warnings);
+        validateDouble("mechs.max_health", 120.0, 1.0, 100000.0, warnings);
+        validateDouble("mechs.machine_gun.speed", 2.4, 0.1, 10.0, warnings);
+        validateDouble("mechs.machine_gun.damage", 2.0, 0.0, 40.0, warnings);
+        validateDouble("mechs.rocket.speed", 1.6, 0.1, 10.0, warnings);
+        validateDouble("mechs.rocket.radius", 3.0, 1.0, 12.0, warnings);
+        validateDouble("mechs.rocket.damage", 6.0, 0.0, 40.0, warnings);
+        validateDouble("mechs.upgrades.armor.health_per_level", 40.0, 1.0, 10000.0, warnings);
+        validateDouble("mechs.upgrades.engine.speed_per_level", 0.025, 0.0, 0.2, warnings);
+        validateDouble("mechs.repair.health", 40.0, 1.0, 10000.0, warnings);
 
         String mode = getConfig().getString("default_fire_mode", "semi-automatic");
         if (Turret.FireMode.parse(mode) == null) {
@@ -187,6 +207,7 @@ public class WindTurrets extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // persist
+        if (mechManager != null) mechManager.shutdown();
         saveTurrets();
         if (fireTask != null) fireTask.cancelAll();
         getLogger().info("WindTurrets disabled.");
@@ -198,6 +219,10 @@ public class WindTurrets extends JavaPlugin implements Listener {
 
     public TurretGUI getTurretGUI() {
         return turretGUI;
+    }
+
+    public MechManager getMechManager() {
+        return mechManager;
     }
 
     public boolean allowsPvP(Location location) {

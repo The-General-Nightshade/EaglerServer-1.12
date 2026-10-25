@@ -1,5 +1,0 @@
-# block_to_drop:
-#   DIRT: STONE
-#   GRASS: DIAMOND
-# Save format: key = block Material name, value = drop Material name
-block_to_drop: {}

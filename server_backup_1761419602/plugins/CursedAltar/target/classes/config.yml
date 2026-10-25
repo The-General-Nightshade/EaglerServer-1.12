@@ -1,5 +1,0 @@
-# List of placed altar locations: "world:x:y:z"
-altars: []
-
-# UUID -> curse level
-cursed-players: {}

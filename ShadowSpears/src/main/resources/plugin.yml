@@ -1,0 +1,13 @@
+name: ShadowSpears
+main: shadowlord.shadowspears.ShadowSpears
+version: "1.0.0"
+api-version: 1.12
+authors: [shadowlord]
+commands:
+  spear:
+    description: Manage ShadowSpears
+    usage: /spear [give <tier> [player]]
+permissions:
+  shadowspears.admin:
+    description: Give ShadowSpears to players
+    default: op

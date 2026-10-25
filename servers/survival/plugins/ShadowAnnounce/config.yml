@@ -1,9 +1,0 @@
-prefix: '&6[Server]&r '
-default_format: '&e%message%'
-enable_actionbar: true
-enable_title: true
-enable_sound: false
-lore_messages:
-  windsurge: '&bThe Wind Surge awakens. Prepare yourselves.'
-  trial_start: '&cA Trial of Judgment begins. All must bear witness.'
-schedules:

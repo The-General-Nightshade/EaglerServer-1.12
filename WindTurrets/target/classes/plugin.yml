@@ -1,6 +1,6 @@
 name: WindTurrets
 main: shadowlord.windturrets.WindTurrets
-version: "1.4.0"
+version: "1.5.1"
 api-version: 1.12
 authors: [shadowlord]
 softdepend: [WorldGuard]
@@ -8,10 +8,6 @@ commands:
   turret:
     description: Manage turrets
     usage: /turret
-  turrets:
-    description: Administer all turrets
-    usage: /turrets admin gui
-    permission: windturrets.admin
 permissions:
   windturrets.use:
     description: Basic turret use
